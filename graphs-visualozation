@@ -1,0 +1,34 @@
+import networkx as nx 
+import matplotlib.pyplot as plt 
+   
+
+class GraphVisualization: 
+   
+    def __init__(self): 
+          
+        self.visual = [] 
+          
+    def addEdge(self, a, b): 
+        temp = [a, b] 
+        self.visual.append(temp) 
+          
+    def visualize(self): 
+        G = nx.Graph() 
+        G.add_edges_from(self.visual) 
+        nx.draw_networkx(G) 
+        plt.show() 
+  
+G = GraphVisualization() 
+
+AdjacencyMatrix = [[0, 1, 0, 0, 1], 
+                    [1, 0, 1, 0, 1], 
+                    [0, 1, 0, 1, 0], 
+                    [0, 0, 1, 0, 1], 
+                    [1, 1, 0, 1, 0]]
+
+for i in range(len(AdjacencyMatrix[0])):
+    for j in range(len(AdjacencyMatrix)):
+        if AdjacencyMatrix[i][j] == 1:
+            G.addEdge(i, j)
+    
+G.visualize() 

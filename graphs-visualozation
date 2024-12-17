@@ -1,34 +1,48 @@
-import networkx as nx 
-import matplotlib.pyplot as plt 
-   
+import networkx as nx
+import matplotlib.pyplot as plt
 
-class GraphVisualization: 
-   
-    def __init__(self): 
-          
-        self.visual = [] 
-          
-    def addEdge(self, a, b): 
-        temp = [a, b] 
-        self.visual.append(temp) 
-          
-    def visualize(self): 
-        G = nx.Graph() 
-        G.add_edges_from(self.visual) 
-        nx.draw_networkx(G) 
-        plt.show() 
-  
-G = GraphVisualization() 
+class GraphVisualization:
+    def __init__(self):
+        self.visual = []  
 
-AdjacencyMatrix = [[0, 1, 0, 0, 1], 
-                    [1, 0, 1, 0, 1], 
-                    [0, 1, 0, 1, 0], 
-                    [0, 0, 1, 0, 1], 
-                    [1, 1, 0, 1, 0]]
+    def addEdge(self, a, b, weight=1):
+        """
+        Adds a directed edge from node a to node b with a given weight.
+        """
+        temp = (a, b, weight) 
+        self.visual.append(temp)
 
-for i in range(len(AdjacencyMatrix[0])):
-    for j in range(len(AdjacencyMatrix)):
-        if AdjacencyMatrix[i][j] == 1:
-            G.addEdge(i, j)
-    
-G.visualize() 
+    def visualize(self):
+        G = nx.DiGraph()  
+
+        for edge in self.visual:
+            G.add_edge(edge[0], edge[1], weight=edge[2])
+
+        pos = nx.spring_layout(G)  
+        labels = nx.get_edge_attributes(G, 'weight')  
+
+        nx.draw(G, pos, with_labels=True, node_color="lightblue", node_size=2000, arrowsize=20)
+        nx.draw_networkx_edge_labels(G, pos, edge_labels=labels, font_size=12)  # Display weights
+
+        plt.title("Directed Graph with Weights")
+        plt.show()
+
+
+G = GraphVisualization()
+
+
+AdjacencyMatrix = [
+    [0, 2, 0, 0, 5], 
+    [1, 0, 3, 0, 2],  
+    [0, 1, 0, 4, 0],  
+    [0, 0, 2, 0, 6],  
+    [3, 2, 0, 1, 0]   
+]
+
+for i in range(len(AdjacencyMatrix)):
+    for j in range(len(AdjacencyMatrix[i])):
+        if AdjacencyMatrix[i][j] > 0:
+            G.addEdge(i, j, weight=AdjacencyMatrix[i][j])
+
+
+G.visualize()

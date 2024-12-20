@@ -33,10 +33,11 @@ G = GraphVisualization()
 
 AdjacencyMatrix = [
     [1, 1],
-    [1, 1] 
+    [1, 0] 
 ]
 
 for i in range(len(AdjacencyMatrix)):
+    
     for j in range(len(AdjacencyMatrix[i])):
         if AdjacencyMatrix[i][j] > 0:
             G.addEdge(i, j, weight=AdjacencyMatrix[i][j])
